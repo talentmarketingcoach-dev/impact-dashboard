@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  SAFETY LOCK: do not change or remove the line below.
+  It tells the browser that this page may not connect to the internet (connect-src 'none'),
+  may not send forms anywhere (form-action 'none'), and may only load its own files ('self').
+  That's what makes "your data never leaves this computer" something anyone can check.
+-->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>Talent Marketing Impact Dashboard</title>
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<header class="band">
+  <div class="wrap band-in">
+    <div class="brand-id">
+      <img id="logo" alt="" hidden>
+      <button class="logo-ph" id="logoPh" type="button">Add your logo</button>
+      <div>
+        <p class="eyebrow" id="eyebrow">Leadership view</p>
+        <h1 id="company">Your company</h1>
+        <p class="sub" id="subtitle">Talent marketing impact across the Talent Marketing Engine™</p>
+      </div>
+    </div>
+    <div class="q-switch" id="periods" role="group" aria-label="Period"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <div class="source" id="source"></div>
+    <div class="actions">
+      <label class="btn primary" for="fileInput">Load your scorecard</label>
+      <input class="vh" type="file" id="fileInput" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <button class="btn" id="customBtn" type="button" aria-expanded="false" aria-controls="custom">Make it yours</button>
+    </div>
+  </div>
+  <div class="privacy">
+    Drop your Talent Marketing Impact Scorecard™ (.xlsx) anywhere on this page. It's read in this browser tab. Nothing is uploaded.
+    <details><summary>How your data is handled</summary>
+      <span class="how">Your file is read in this browser tab and is gone when you close it. Nothing is uploaded or saved. Only your “Make it yours” choices (name, logo, colors) are remembered, in this browser. The page is locked so it can't connect to the internet. Try it: with this page open, turn off your Wi-Fi and load your scorecard. It still works.</span>
+    </details>
+  </div>
+  <div class="msg" id="msg" role="alert" hidden></div>
+</div>
+
+<section class="wrap" id="custom" hidden>
+  <div class="card custom">
+    <div class="custom-head">
+      <h2>Make it yours</h2>
+      <button class="btn small" id="customClose" type="button">Done</button>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <label for="fCompany">Company name</label>
+        <input type="text" id="fCompany" maxlength="60" placeholder="Your company" autocomplete="organization">
+      </div>
+      <div class="field">
+        <span class="flabel">Logo</span>
+        <div class="logo-ctl">
+          <label class="btn small" for="fLogo">Upload logo</label>
+          <input class="vh" type="file" id="fLogo" accept="image/png,image/jpeg,image/svg+xml,image/webp">
+          <button class="btn small" id="logoRemove" type="button">Remove</button>
+        </div>
+        <p class="help">PNG or SVG with a transparent background works best.</p>
+      </div>
+      <div class="field">
+        <label for="fBrandHex">Brand color</label>
+        <div class="color-ctl"><input type="color" id="fBrand" aria-label="Pick your brand color"><input type="text" id="fBrandHex" maxlength="7" spellcheck="false" autocomplete="off"></div>
+        <p class="help">The header band. Paste your HEX code.</p>
+      </div>
+      <div class="field">
+        <label for="fAccentHex">Accent color</label>
+        <div class="color-ctl"><input type="color" id="fAccent" aria-label="Pick your accent color"><input type="text" id="fAccentHex" maxlength="7" spellcheck="false" autocomplete="off"></div>
+        <p class="help">Buttons and the selected period.</p>
+      </div>
+      <div class="field">
+        <label for="fCurrency">Currency</label>
+        <select id="fCurrency">
+          <option value="USD">US dollar ($)</option><option value="EUR">Euro (€)</option><option value="GBP">Pound (£)</option>
+          <option value="CHF">Swiss franc (CHF)</option><option value="SEK">Swedish krona (SEK)</option><option value="DKK">Danish krone (DKK)</option>
+          <option value="NOK">Norwegian krone (NOK)</option><option value="PLN">Polish złoty (PLN)</option>
+        </select>
+        <p class="help">For cost per hire and other costs.</p>
+      </div>
+      <div class="field">
+        <label for="fFont">Font for names and numbers</label>
+        <select id="fFont"></select>
+        <p class="help">Fonts already on your computer, in bold. Arial is the default.</p>
+      </div>
+    </div>
+    <h3>Stage colors</h3>
+    <p class="help">Each stage keeps one color everywhere on the page. They start as the colors in your scorecard.</p>
+    <div class="swatches" id="swatches"></div>
+    <div class="row-actions">
+      <button class="btn small" id="resetStages" type="button">Use my scorecard's stage colors</button>
+      <button class="btn small" id="resetAll" type="button">Reset everything</button>
+      <span class="help">Your choices are saved in this browser only.</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <p class="legend"><strong>How to read this page.</strong> <span id="legendText"></span></p>
+</div>
+
+<main class="wrap grid">
+  <section class="stages" id="stages" aria-label="The eight stages"></section>
+  <aside class="side">
+    <section class="card">
+      <h2>Candidate journey</h2>
+      <p class="hint">Stages 1 to 5, in stage order and stage colors.</p>
+      <div class="journey" id="journey"></div>
+      <h3>Stage conversion against your plan</h3>
+      <div id="conv"></div>
+    </section>
+    <section class="card">
+      <div id="ragTables"></div>
+      <div class="lenses" id="lenses" hidden></div>
+    </section>
+  </aside>
+</main>
+
+<section class="wrap story" aria-label="Your story for leadership">
+  <div class="card">
+    <h2>Your three lines for leadership</h2>
+    <p class="hint">A first draft from your numbers. Edit it, then copy it into your report.</p>
+    <div class="lines">
+      <div class="line"><label for="l1">What changed</label><textarea id="l1" rows="3"></textarea></div>
+      <div class="line"><label for="l2">Why</label><textarea id="l2" rows="3"></textarea></div>
+      <div class="line"><label for="l3">What we'll do</label><textarea id="l3" rows="2"></textarea></div>
+    </div>
+    <div class="row-actions">
+      <button class="btn primary" id="copyLines" type="button">Copy the three lines</button>
+      <p class="caveat">The numbers show where, not why. Talk to TA before you move any budget.</p>
+    </div>
+    <textarea class="copybox" id="fallLines" rows="4" hidden aria-label="Text to copy"></textarea>
+  </div>
+  <div class="story-side">
+    <section class="card">
+      <h2>Check before you share</h2>
+      <p class="hint" id="checkHint">Changes that often point to a data problem.</p>
+      <ul class="checks" id="checks"></ul>
+    </section>
+    <section class="card prompts">
+      <h2>Stress-test it with AI</h2>
+      <p class="hint">Your numbers are already filled in. Paste the prompt into the AI tool you use.</p>
+      <div class="prompt">
+        <h3>Review your dashboard as a skeptical CFO</h3>
+        <p>Gets the questions leadership will ask, before they ask them.</p>
+        <button class="btn small" id="copyCfo" type="button">Copy the prompt</button>
+        <details><summary>Show the prompt</summary><pre id="cfoText"></pre></details>
+        <textarea class="copybox" id="fallCfo" rows="5" hidden aria-label="Text to copy"></textarea>
+      </div>
+      <div class="prompt">
+        <h3>Traffic or engagement? Diagnose your funnel</h3>
+        <p>Finds the biggest leak and makes a first guess at the cause.</p>
+        <button class="btn small" id="copyFunnel" type="button">Copy the prompt</button>
+        <details><summary>Show the prompt</summary><pre id="funnelText"></pre></details>
+        <textarea class="copybox" id="fallFunnel" rows="5" hidden aria-label="Text to copy"></textarea>
+      </div>
+      <p class="habits"><strong>Before you paste:</strong> fill in your role and type of company, keep confidential figures out, and use only the AI tools your employer has approved. Then spot-check two numbers by hand. This is the only moment your numbers leave this page, and you decide it.</p>
+    </section>
+  </div>
+</section>
+
+<footer class="wrap foot">
+  <img src="img/tmc-logo.png" alt="Talent Marketing Coach" width="40" height="40">
+  <p>Talent Marketing Impact Dashboard by Talent Marketing Coach, built for the Prove Real ROI with Employer Branding &amp; Talent Marketing masterclass. Free to use and change under the PolyForm Shield license. Talent Marketing Engine™ and Talent Marketing Impact Scorecard™ are trademarks of Talent Marketing Coach.</p>
+</footer>
+
+<div class="drop" id="drop" hidden>Drop your scorecard to build your dashboard</div>
+<p class="vh" id="live" aria-live="polite"></p>
+
+<script src="js/settings.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/xlsx-reader.js"></script>
+<script src="js/scorecard.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
