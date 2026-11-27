@@ -16,6 +16,8 @@
   --shadow:0 1px 2px rgba(16,40,30,.05),0 6px 20px rgba(16,40,30,.05);
   /* Brand tokens. The page sets these from settings.js and "Make it yours". */
   --brand:#6CB1A3; --brand-ink:#10231A; --accent:#2BFF9E; --accent-ink:#10231A;
+  /* Example data marker: highlighter yellow in light and dark mode, so nobody mistakes it for real numbers. */
+  --example-bg:#FFE629; --example-ink:#1A1A1A;
   /* System fonts: already on every computer, made for reading on screens, nothing to download. */
   --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   /* Names and numbers (company name, stage names, metric values, card titles): a plain, generic bold.
@@ -61,12 +63,19 @@ h1{margin:0;font:700 clamp(22px,3.2vw,32px)/1.12 var(--display);letter-spacing:-
 .q-switch button[aria-pressed="true"]{background:var(--brand-ink);color:var(--brand)}
 .q-switch button:disabled{opacity:.4;cursor:not-allowed}
 
+/* Example banner: only while the made-up example is on screen */
+.example-banner{background:var(--example-bg);color:var(--example-ink);border-bottom:2px solid color-mix(in srgb,var(--example-bg) 65%,#000 35%)}
+.example-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-block:12px}
+.example-in p{margin:0;font-size:15px;color:var(--example-ink);min-width:0}
+.example-in strong{color:var(--example-ink);font-weight:700}
+.example-in .btn.primary{background:var(--example-ink);color:var(--example-bg);border-color:transparent}
+
 /* Toolbar */
 .toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px;padding-block:16px 6px}
 .source{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;min-width:0;color:var(--muted);font-size:14px}
 .source strong{color:var(--fg);overflow-wrap:anywhere}
 .pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font:700 11px/1 var(--body);letter-spacing:.07em;text-transform:uppercase}
-.pill.example{border:1px dashed var(--muted);color:var(--muted)}
+.pill.example{background:var(--example-bg);color:var(--example-ink);border:1px solid color-mix(in srgb,var(--example-bg) 65%,#000 35%)}
 .pill.yours{background:var(--surface-2);color:var(--fg)}
 .actions{display:flex;flex-wrap:wrap;gap:10px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:700 14px/1.2 var(--display);cursor:pointer;text-decoration:none}

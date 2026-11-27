@@ -132,7 +132,7 @@
     const logo = $('#logo');
     if (prefs.logo) { logo.src = prefs.logo; logo.alt = (prefs.company || 'Company') + ' logo'; logo.hidden = false; $('#logoPh').hidden = true; }
     else { logo.hidden = true; logo.removeAttribute('src'); $('#logoPh').hidden = false; }
-    $('#company').textContent = prefs.company || 'Your company';
+    $('#company').textContent = prefs.company || (isSample ? S.text.exampleCompany : 'Your company');
   }
   function renderTexts() {
     document.title = S.text.pageTitle;
@@ -144,12 +144,22 @@
       const ok = hasData(p);
       return `<button type="button" data-p="${p}" aria-pressed="${p === period}" ${ok ? '' : 'disabled title="No numbers for this period yet"'}>${esc(label(p))}</button>`;
     }).join('');
-    $('#eyebrow').textContent = `${S.text.leadershipView} · ${label(period)}`;
+    $('#eyebrow').textContent = `${S.text.leadershipView} · ${label(period)}${isSample ? ' · ' + S.text.exampleTag : ''}`;
   }
   function renderSource() {
     $('#source').innerHTML = isSample
       ? `<span class="pill example">Example data</span><span>${esc(S.text.exampleNote)}</span>`
       : `<span class="pill yours">Your file</span><strong>${esc(model.file)}</strong>`;
+    // Make the example unmistakable everywhere it could be copied or screenshotted.
+    $('#exampleBanner').hidden = !isSample;
+    $('#exampleBannerText').textContent = S.text.exampleBanner;
+    $('#exampleBannerMore').textContent = S.text.exampleBannerMore;
+    $('#storyHint').textContent = isSample
+      ? 'A first draft from the example numbers. Load your scorecard to get the draft for your own numbers.'
+      : 'A first draft from your numbers. Edit it, then copy it into your report.';
+    $('#promptHint').textContent = isSample
+      ? 'Filled in with the example numbers for now. Load your scorecard to use your own.'
+      : 'Your numbers are already filled in. Paste the prompt into the AI tool you use.';
   }
 
   function kpiHTML(m) {
@@ -275,7 +285,7 @@
   }
 
   function dashboardText() {
-    const out = [`Leadership dashboard, ${label(period)}`, `Legend: ${S.text.legend}`, ''];
+    const out = [`Leadership dashboard, ${label(period)}${isSample ? ` (${S.text.exampleCopied.toLowerCase()})` : ''}`, `Legend: ${S.text.legend}`, ''];
     for (let n = 1; n <= 8; n++) {
       const ms = stageMetrics(n);
       if (!ms.length) continue;
@@ -294,7 +304,8 @@
   function funnelPrompt() {
     const f = journey(), pv = prevPeriod(period), ps = pv ? [pv, period] : [period];
     const lines = (S.journey || []).map(j => f[j.step]).filter(Boolean).map(m => `- ${m.name}: ` + ps.map(p => `${label(p)} ${fmt((m.v[p] || {}).a, m, true)}`).join(' · '));
-    return fill(S.prompts.funnel, { periods: ps.map(label).join(' and '), funnel: lines.join('\n') });
+    const periods = ps.map(label).join(' and ') + (isSample ? ` (${S.text.exampleCopied.toLowerCase()})` : '');
+    return fill(S.prompts.funnel, { periods, funnel: lines.join('\n') });
   }
   function renderPrompts() { $('#cfoText').textContent = cfoPrompt(); $('#funnelText').textContent = funnelPrompt(); }
 
@@ -411,7 +422,7 @@
     clearTimeout(resetArmed); resetArmed = null; b.textContent = 'Reset everything';
     prefs = Object.assign({}, DEFAULTS); savePrefs(); renderAll(); announce('Settings reset.');
   });
-  $('#copyLines').addEventListener('click', e => copyText(`What changed: ${$('#l1').value}\nWhy: ${$('#l2').value}\nWhat we'll do: ${$('#l3').value}`, e.currentTarget, $('#fallLines')));
+  $('#copyLines').addEventListener('click', e => copyText(`${isSample ? S.text.exampleCopied + '\n' : ''}What changed: ${$('#l1').value}\nWhy: ${$('#l2').value}\nWhat we'll do: ${$('#l3').value}`, e.currentTarget, $('#fallLines')));
   $('#copyCfo').addEventListener('click', e => copyText(cfoPrompt(), e.currentTarget, $('#fallCfo')));
   $('#copyFunnel').addEventListener('click', e => copyText(funnelPrompt(), e.currentTarget, $('#fallFunnel')));
 

@@ -30,6 +30,13 @@
   </div>
 </header>
 
+<div class="example-banner" id="exampleBanner" role="status" hidden>
+  <div class="wrap example-in">
+    <p><strong id="exampleBannerText">You're looking at example numbers, not real results.</strong> <span id="exampleBannerMore"></span></p>
+    <label class="btn small primary" for="fileInput">Load your scorecard</label>
+  </div>
+</div>
+
 <div class="wrap">
   <div class="toolbar">
     <div class="source" id="source"></div>
@@ -128,7 +135,7 @@
 <section class="wrap story" aria-label="Your story for leadership">
   <div class="card">
     <h2>Your three lines for leadership</h2>
-    <p class="hint">A first draft from your numbers. Edit it, then copy it into your report.</p>
+    <p class="hint" id="storyHint">A first draft from your numbers. Edit it, then copy it into your report.</p>
     <div class="lines">
       <div class="line"><label for="l1">What changed</label><textarea id="l1" rows="3"></textarea></div>
       <div class="line"><label for="l2">Why</label><textarea id="l2" rows="3"></textarea></div>
@@ -148,7 +155,7 @@
     </section>
     <section class="card prompts">
       <h2>Stress-test it with AI</h2>
-      <p class="hint">Your numbers are already filled in. Paste the prompt into the AI tool you use.</p>
+      <p class="hint" id="promptHint">Your numbers are already filled in. Paste the prompt into the AI tool you use.</p>
       <div class="prompt">
         <h3>Review your dashboard as a skeptical CFO</h3>
         <p>Gets the questions leadership will ask, before they ask them.</p>

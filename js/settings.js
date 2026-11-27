@@ -33,6 +33,12 @@ window.DASHBOARD_SETTINGS = {
     subtitle: 'Talent marketing impact across the Talent Marketing Engine™',
     legend: "% = progress toward our own target. RAG = how we compare with what good looks like (the benchmark). They can disagree, and that's useful.",
     exampleNote: "The sample scorecard with made-up numbers. Load yours to see your own numbers.",
+    // Shown while the example is on screen, so nobody mistakes it for real results.
+    exampleBanner: "You're looking at example numbers, not real results.",
+    exampleBannerMore: 'Load your Talent Marketing Impact Scorecard™ to see your own dashboard.',
+    exampleCompany: 'Example company',
+    exampleTag: 'Example data',
+    exampleCopied: 'EXAMPLE NUMBERS, NOT REAL RESULTS',
     leadershipView: 'Leadership view',
     fullYear: 'Full year'
   },
