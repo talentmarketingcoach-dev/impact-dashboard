@@ -136,6 +136,10 @@
   }
   function renderTexts() {
     document.title = S.text.pageTitle;
+    // Footer links: only https addresses; they open in a new tab (a click, not something the page sends).
+    $('#footLinks').innerHTML = (S.footerLinks || [])
+      .filter(l => l && typeof l.url === 'string' && /^https:\/\/[^\s"'<>]+$/i.test(l.url))
+      .map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join('');
     $('#subtitle').textContent = S.text.subtitle;
     $('#legendText').textContent = S.text.legend;
   }

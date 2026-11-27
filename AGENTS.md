@@ -67,6 +67,7 @@ The result is a "model" object (see the comment at the top of `js/scorecard.js`)
 | Company name, colors, logo, currency | `settings.brand` (logo file goes in `img/`) |
 | Fonts | `settings.brand.headingFont` (names and numbers, bold, default Arial), `settings.brand.font` (other text), `settings.fontChoices` (the list in "Make it yours"). Only fonts installed on the computer, or a font file in a `fonts/` folder (see below) |
 | Words on the page, the legend line | `settings.text` |
+| The links in the footer | `settings.footerLinks` (https only; they open in a new tab on a click, which the safety lock allows). Keep the credit line in `index.html` |
 | Rename stages or change stage colors | `settings.stages` |
 | The order of the cards inside a stage | `settings.cardOrder` (cards show two per row) |
 | A metric is "lower is better" or a cost | `settings.metrics`, or the Direction column in their Excel |

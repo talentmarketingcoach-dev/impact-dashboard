@@ -43,6 +43,18 @@ window.DASHBOARD_SETTINGS = {
     fullYear: 'Full year'
   },
 
+  /* ---------- Links in the footer ---------- */
+  // They open in a new tab when someone clicks them. Only https:// addresses are shown.
+  // Making your own version? Point these to your own pages, and keep the credit line in index.html.
+  footerLinks: [
+    { label: 'Get the free Impact Scorecard', url: 'https://learn.talentmarketingcoach.com/courses/TM-impact-scorecard' },
+    { label: 'Prove Real ROI masterclass',    url: 'https://www.talentmarketingcoach.com/courses/roi' },
+    { label: 'talentmarketingcoach.com',      url: 'https://www.talentmarketingcoach.com' },
+    { label: 'How your data is handled',      url: 'https://github.com/talentmarketingcoach-dev/impact-dashboard/blob/main/PRIVACY.md' },
+    { label: 'For IT teams',                  url: 'https://github.com/talentmarketingcoach-dev/impact-dashboard/blob/main/SECURITY.md' },
+    { label: 'Source code on GitHub',         url: 'https://github.com/talentmarketingcoach-dev/impact-dashboard' }
+  ],
+
   /* ---------- Where the numbers come from in your Excel file ---------- */
   source: {
     dataTab: 'Google Sheets input',          // the tab the dashboard reads

@@ -21,7 +21,7 @@ A static web page: HTML, CSS and plain JavaScript in one folder. No build step, 
   - `form-action 'none'` blocks form submissions.
   - Scripts, fonts and images load only from the page's own folder (images also from `data:`/`blob:` for an uploaded logo).
   - `style-src 'unsafe-inline'` is there for inline style attributes (stage colors). Inline scripts are not allowed.
-- **No network calls in the code.** You can verify: search the folder for `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `http://` and `https://` (the only hits are comments, an XML namespace string and documentation links).
+- **No network calls in the code.** You can verify: search the folder for `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `http://` and `https://` (the only hits are comments, an XML namespace string, documentation links, and the footer links in `js/settings.js`, which only open a page in a new tab when someone clicks them).
 - **Storage:** `localStorage` key `impact-dashboard-settings` holds display preferences only (company name, logo as a small image, colors, currency). No workbook data is stored.
 
 ## Handling untrusted input
